@@ -1,6 +1,8 @@
 # markdown-captions
 
-Converts images to `<figures>` with `<figcaption>`.
+Converts images with alt text to `<figure>` with `<figcaption>`.
+
+Works with `attr_list` extension.
 
 ## Usage
 
@@ -43,10 +45,13 @@ inline captioned images
 </style>
 ![caption](img.jpg){: .inline }
 ![caption2](img2.jpg){: .inline }
+```
+``` html
 <p>
   <figure class="inline"><img src="img.jpg" /><figcaption>caption</figcaption></figure>
   <figure class="inline"><img src="img2.jpg" /><figcaption>caption2</figcaption></figure>
 </p>
+```
 
 images with no alt text are not captioned
 ``` md
