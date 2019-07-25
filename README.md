@@ -7,11 +7,11 @@ Works with `attr_list` extension.
 ## Usage
 
 ```
-    pip install markdown-captions
+pip install markdown-captions
 ```
 
 ``` python
-md = markdown.Markdown(extensions=['markdown_captions'])
+md = markdown.Markdown(extensions=['markdown_captions', 'attr_list'])
 ```
 
 ## Examples

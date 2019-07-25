@@ -31,11 +31,13 @@ class CaptionsTreeprocessor(Treeprocessor):
 
                 caption = etree.SubElement(img, 'figcaption')
                 caption.text = img.attrib['alt']
+                del img.attrib['alt']
 
 class CaptionsExtension(Extension):
     def extendMarkdown(self, md, md_globals):
+        priority_string = '>attr_list' if 'attr_list' in md.treeprocessors else '_end'
         md.treeprocessors.add(
-            'captions', CaptionsTreeprocessor(md), '>attr_list'
+            'captions', CaptionsTreeprocessor(md), priority_string
         )
 
 def makeExtension(**kwargs):  # pragma: no cover
