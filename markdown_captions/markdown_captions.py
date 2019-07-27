@@ -4,41 +4,41 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 from markdown.extensions import Extension
-from markdown.treeprocessors import Treeprocessor
 from markdown.util import etree
-import re
+from markdown.inlinepatterns import LinkInlineProcessor
 
+CAPTION_RE = r'\!\[(?=[^\]])'
 
-class CaptionsTreeprocessor(Treeprocessor):
-    def run(self, doc):
+class ImageInlineProcessor(LinkInlineProcessor):
+    """ Return a img element from the given match. """
 
-        # iterate img tags
-        for img in doc.findall('.//img'):
+    def handleMatch(self, m, data):
+        text, index, handled = self.getText(data, m.end(0))
+        if not handled:
+            return None, None, None
 
-            if img.attrib['alt']:
-                # replace img with figure
-                img.tag = 'figure'
+        src, title, index, handled = self.getLink(data, index)
+        if not handled:
+            return None, None, None
 
-                # build inner img, figcaption
-                inner_img = etree.SubElement(img, 'img')
+        fig = etree.Element('figure')
+        img = etree.SubElement(fig, 'img')
+        cap = etree.SubElement(fig, 'figcaption')
 
-                inner_img.set('src', img.attrib['src'])
-                del img.attrib['src']
+        img.set('src', src)
 
-                if 'title' in img.attrib:
-                    inner_img.set('title', img.attrib['title'])
-                    del img.attrib['title']
+        if title is not None:
+            img.set("title", title)
 
-                caption = etree.SubElement(img, 'figcaption')
-                caption.text = img.attrib['alt']
-                del img.attrib['alt']
+        cap.text = text
+
+        return fig, m.start(0), index
+
 
 class CaptionsExtension(Extension):
     def extendMarkdown(self, md, md_globals):
-        priority_string = '>attr_list' if 'attr_list' in md.treeprocessors else '_end'
-        md.treeprocessors.add(
-            'captions', CaptionsTreeprocessor(md), priority_string
-        )
+        md.inlinePatterns.register(ImageInlineProcessor(CAPTION_RE, md), 'caption', 151)
+
 
 def makeExtension(**kwargs):  # pragma: no cover
     return CaptionsExtension(**kwargs)
