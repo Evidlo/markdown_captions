@@ -6,11 +6,12 @@ from __future__ import unicode_literals
 from markdown.extensions import Extension
 from markdown.util import etree
 from markdown.inlinepatterns import LinkInlineProcessor
+from markdown.extensions.attr_list import AttrListTreeprocessor
+import re
 
 CAPTION_RE = r'\!\[(?=[^\]])'
 
 class ImageInlineProcessor(LinkInlineProcessor):
-    """ Return a img element from the given match. """
 
     def handleMatch(self, m, data):
         text, index, handled = self.getText(data, m.end(0))
@@ -32,6 +33,17 @@ class ImageInlineProcessor(LinkInlineProcessor):
 
         cap.text = text
 
+        # if attr_list is enabled, put '{: xxx}' inside <figure> at end
+        # so attr_list will see it
+        if 'attr_list' in self.md.treeprocessors:
+            # find attr_list curly braces
+            curly = re.match(AttrListTreeprocessor.BASE_RE, data[index:])
+            if curly:
+                fig[-1].tail = '\n'
+                fig[-1].tail += curly.group()
+                # remove original '{: xxx}'
+                index += curly.endpos
+
         return fig, m.start(0), index
 
 
@@ -40,5 +52,5 @@ class CaptionsExtension(Extension):
         md.inlinePatterns.register(ImageInlineProcessor(CAPTION_RE, md), 'caption', 151)
 
 
-def makeExtension(**kwargs):  # pragma: no cover
+def makeExtension(**kwargs):
     return CaptionsExtension(**kwargs)
