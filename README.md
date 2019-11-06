@@ -2,8 +2,6 @@
 
 Converts images with alt text to `<figure>` with `<figcaption>`.
 
-Works with `attr_list` extension.
-
 ## Usage
 
 ```
@@ -11,7 +9,12 @@ pip install markdown-captions
 ```
 
 ``` python
-md = markdown.Markdown(extensions=['markdown_captions', 'attr_list'])
+md = markdown.Markdown(
+    extensions=[
+        'markdown_captions',
+        'attr_list' # optional
+    ]
+)
 ```
 
 ## Examples
@@ -28,7 +31,7 @@ simple example
 </p>
 ```
 
-image class and title
+image title and class (with attr_list extension)
 ``` md
 ![caption](img.jpg "title"){: .class1 }
 ```
