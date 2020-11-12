@@ -7,7 +7,7 @@ setup(
     name='markdown-captions',
     version='2',
     description= 'Turn markdown images into captioned images using <figure>',
-    url='https://github.com/evidlo/markdown-captions',
+    url='https://github.com/Evidlo/markdown_captions',
     author='evidlo',
     author_email='evan@evanw.org',
     license='GPL3',
