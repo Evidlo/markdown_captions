@@ -33,14 +33,12 @@ class ImageInlineProcessor(LinkInlineProcessor):
 
         cap.text = text
 
-        # if attr_list is enabled, put '{: xxx}' inside <figure> at end
-        # so attr_list will see it
+        # if attr_list is enabled, put '{: xxx}' after <img> instead of <figure>
         if 'attr_list' in self.md.treeprocessors:
             # find attr_list curly braces
             curly = re.match(AttrListTreeprocessor.BASE_RE, data[index:])
             if curly:
-                fig[-1].tail = '\n'
-                fig[-1].tail += curly.group()
+                fig[0].tail = curly.group()
                 # remove original '{: xxx}'
                 index += curly.endpos
 
