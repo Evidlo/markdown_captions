@@ -5,7 +5,7 @@ with open('README.md') as f:
 
 setup(
     name='markdown-captions',
-    version='2',
+    version='2.0.1',
     description= 'Turn markdown images into captioned images using <figure>',
     url='https://github.com/Evidlo/markdown_captions',
     author='evidlo',
