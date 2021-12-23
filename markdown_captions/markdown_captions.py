@@ -42,7 +42,7 @@ class ImageInlineProcessor(LinkInlineProcessor):
                 fig[-1].tail = '\n'
                 fig[-1].tail += curly.group()
                 # remove original '{: xxx}'
-                index += curly.endpos
+                index += curly.end()
 
         return fig, m.start(0), index
 

@@ -38,6 +38,15 @@ class Tests(unittest.TestCase):
             md.convert('![caption](foo.png){: .class}'),
             '<p>\n<figure class="class"><img src="foo.png" /><figcaption>caption</figcaption></figure>\n</p>'
         )
+        # captioned img w/ attr_list
+        self.assertEqual(
+            md.convert('![caption](foo.png){: .class}\n![caption2](foo2.png){: .class2}'),
+            (
+                '<p>\n<figure class="class"><img src="foo.png" /><figcaption>caption</figcaption></figure>'
+                + '\n<figure class="class2"><img src="foo2.png" /><figcaption>caption2</figcaption></figure>\n</p>'
+
+            )
+        )
 
 
 if __name__ == '__main__':
