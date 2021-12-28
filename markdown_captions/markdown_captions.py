@@ -5,12 +5,12 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 from markdown.extensions import Extension
 from markdown.util import etree
-from markdown.inlinepatterns import (
-    LinkInlineProcessor, ReferenceInlineProcessor, IMAGE_REFERENCE_RE,
-    IMAGE_LINK_RE
-)
+from markdown.inlinepatterns import LinkInlineProcessor, ReferenceInlineProcessor
+from markdown.inlinepatterns import IMAGE_REFERENCE_RE
 from markdown.extensions.attr_list import AttrListTreeprocessor
 import re
+
+CAPTION_RE = r'\!\[(?=[^\]])'
 
 # handle regular inline image: ![caption](img.jpg)
 class ImageInlineProcessor(LinkInlineProcessor):
@@ -136,9 +136,9 @@ class ShortImageReferenceInlineProcessor(ImageReferenceInlineProcessor):
 
 class CaptionsExtension(Extension):
     def extendMarkdown(self, md, md_globals):
-        md.inlinePatterns.register(ImageInlineProcessor(IMAGE_LINK_RE, md), 'caption', 151)
-        md.inlinePatterns.register(ImageReferenceInlineProcessor(IMAGE_REFERENCE_RE, md), 'ref_caption', 151)
-        md.inlinePatterns.register(ShortImageReferenceInlineProcessor(IMAGE_REFERENCE_RE, md), 'short_ref_caption', 151)
+        md.inlinePatterns.register(ImageInlineProcessor(CAPTION_RE, md), 'caption', 151)
+        md.inlinePatterns.register(ImageReferenceInlineProcessor(CAPTION_RE, md), 'ref_caption', 151)
+        md.inlinePatterns.register(ShortImageReferenceInlineProcessor(CAPTION_RE, md), 'short_ref_caption', 151)
 
 
 def makeExtension(**kwargs):

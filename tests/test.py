@@ -32,6 +32,12 @@ class Tests(unittest.TestCase):
             '<p>\n<figure><img src="foo.png" /><figcaption>caption</figcaption>\n</figure>\n</p>'
         )
 
+        # no caption referenced image
+        self.assertEqual(
+            md.convert('![][ref]\n[ref]: foo.png'),
+            '<p><img alt="" src="foo.png" /></p>'
+        )
+
         # short referenced image
         self.assertEqual(
             md.convert('![caption]\n[caption]: foo.png'),
