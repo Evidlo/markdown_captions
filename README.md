@@ -63,3 +63,21 @@ images with no alt text are not captioned
 ``` html
 <img src="img.jpg" />
 ```
+
+referenced images, and shorthand references are also supported
+
+``` md
+![caption][ref]
+![caption2]
+
+[ref]: img.jpg
+[caption2]: img2.jpg
+```
+
+``` html
+'<p>
+  <figure><img src="img.jpg" /><figcaption>caption</figcaption></figure>
+  <figure><img src="img2.jpg" /><figcaption>caption2</figcaption></figure>
+</p>'
+```
+
