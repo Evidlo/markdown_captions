@@ -75,9 +75,9 @@ referenced images, and shorthand references are also supported
 ```
 
 ``` html
-'<p>
+<p>
   <figure><img src="img.jpg" /><figcaption>caption</figcaption></figure>
   <figure><img src="img2.jpg" /><figcaption>caption2</figcaption></figure>
-</p>'
+</p>
 ```
 
