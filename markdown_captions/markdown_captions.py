@@ -4,11 +4,11 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 from markdown.extensions import Extension
-from markdown.util import etree
 from markdown.inlinepatterns import LinkInlineProcessor, ReferenceInlineProcessor
 from markdown.inlinepatterns import IMAGE_REFERENCE_RE
 from markdown.extensions.attr_list import AttrListTreeprocessor
 import re
+from xml.etree import ElementTree
 
 CAPTION_RE = r'\!\[(?=[^\]])'
 
@@ -24,9 +24,9 @@ class ImageInlineProcessor(LinkInlineProcessor):
         if not handled:
             return None, None, None
 
-        fig = etree.Element('figure')
-        img = etree.SubElement(fig, 'img')
-        cap = etree.SubElement(fig, 'figcaption')
+        fig = ElementTree.Element('figure')
+        img = ElementTree.SubElement(fig, 'img')
+        cap = ElementTree.SubElement(fig, 'figcaption')
 
         img.set('src', src)
 
@@ -54,9 +54,9 @@ class ImageInlineProcessor(LinkInlineProcessor):
 class ImageReferenceInlineProcessor(ReferenceInlineProcessor):
     """ Match to a stored reference and return img element. """
     def makeTag(self, href, title, text):
-        fig = etree.Element('figure')
-        img = etree.SubElement(fig, 'img')
-        cap = etree.SubElement(fig, 'figcaption')
+        fig = ElementTree.Element('figure')
+        img = ElementTree.SubElement(fig, 'img')
+        cap = ElementTree.SubElement(fig, 'figcaption')
 
         img.set("src", href)
 
@@ -96,9 +96,9 @@ class ImageReferenceInlineProcessor(ReferenceInlineProcessor):
 
         # ----- build element -----
 
-        fig = etree.Element('figure')
-        img = etree.SubElement(fig, 'img')
-        cap = etree.SubElement(fig, 'figcaption')
+        fig = ElementTree.Element('figure')
+        img = ElementTree.SubElement(fig, 'img')
+        cap = ElementTree.SubElement(fig, 'figcaption')
 
         img.set("src", href)
 
@@ -135,7 +135,7 @@ class ShortImageReferenceInlineProcessor(ImageReferenceInlineProcessor):
 # ---------- Extension Registration ----------
 
 class CaptionsExtension(Extension):
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         md.inlinePatterns.register(ImageInlineProcessor(CAPTION_RE, md), 'caption', 151)
         md.inlinePatterns.register(ImageReferenceInlineProcessor(CAPTION_RE, md), 'ref_caption', 151)
         md.inlinePatterns.register(ShortImageReferenceInlineProcessor(CAPTION_RE, md), 'short_ref_caption', 151)
